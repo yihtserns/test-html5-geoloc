@@ -2,7 +2,8 @@
 @Grab('org.apache.camel:camel-jetty:2.4.0')
 import groovy.*
 
-def baseUrl = 'jetty:http://localhost:8090'
+def host = (System.getProperty('globalhost') != null) ? '0.0.0.0' : 'localhost'
+def baseUrl = "jetty:http://${host}:8888"
 
 routes {
   from("$baseUrl/index.html") transform constant(new File('index.html'))
