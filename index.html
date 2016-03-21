@@ -9,11 +9,12 @@
           var geolocator = navigator.geolocation;
           if (geolocator) {
             geolocator.getCurrentPosition(function(position) {
-              var lat = position.coords.latitude
-              var long = position.coords.longitude
-              var time = Date.now()
+              var lat = position.coords.latitude;
+              var long = position.coords.longitude;
+              var time = Date.now();
 
-              $.post('http://localhost:8090/report', { time: time, lat: lat, long: long });
+              $.post('/report', { time: time, lat: lat, long: long });
+              alert('Location sent');
             });
           } else {
             alert("Cannot access GPS function, is it disabled?");
