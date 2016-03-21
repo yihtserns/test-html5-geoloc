@@ -13,8 +13,10 @@
               var long = position.coords.longitude;
               var time = Date.now();
 
-              $.post('/report', { time: time, lat: lat, long: long });
-              alert('Location sent');
+              var req = $.post('/report', { time: time, lat: lat, long: long }, function() { alert('Location sent'); })
+                .fail(function() {
+                  alert('Unable to send location');
+                });
             });
           } else {
             alert("Cannot access GPS function, is it disabled?");
