@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"></meta>
+    <meta content="utf-8" http-equiv="encoding"></meta>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script type="text/javascript">
+        function sendLocation() {
+          var geolocator = navigator.geolocation;
+          if (geolocator) {
+            geolocator.getCurrentPosition(function(position) {
+              var lat = position.coords.latitude
+              var long = position.coords.longitude
+              var time = Date.now()
+
+              $.post('http://localhost:8090/report', { time: time, lat: lat, long: long });
+            });
+          } else {
+            alert("Cannot access GPS function, is it disabled?");
+          }
+        }
+    </script>
+  </head>
+  <body>
+    <input type="button" onclick="sendLocation()" value="Send Location"/>
+  </body>
+</html>

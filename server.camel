@@ -1,0 +1,18 @@
+@Grab('com.github.yihtserns:camelscript:0.0.2')
+@Grab('org.apache.camel:camel-jetty:2.4.0')
+import groovy.*
+
+def baseUrl = 'jetty:http://localhost:8090'
+
+routes {
+  from("$baseUrl/index.html") transform constant(new File('index.html'))
+  from("$baseUrl/report") {
+      process {
+        println "Latitude: ${it.in.getHeader('lat')}"
+        println "Longitude: ${it.in.getHeader('long')}"
+        println "Time: ${new Date(it.in.getHeader('time') as long)}"
+        println '=============='
+      }
+      transform constant("")
+  }
+}
