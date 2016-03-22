@@ -12,19 +12,31 @@
               var lat = position.coords.latitude;
               var long = position.coords.longitude;
               var time = Date.now();
+              var locationText = "Time: " + time + ", Latitude: " + lat + ", Longitude: " + long;
 
-              var req = $.post('/report', { time: time, lat: lat, long: long }, function() { alert('Location sent'); })
-                .fail(function() {
-                  alert('Unable to send location');
-                });
+              var req = $.post('/report', { time: time, lat: lat, long: long }, function() {
+                $("#sentLocations").append('<li>' + locationText + '</li>');
+              }).fail(function() {
+                $("#unsentLocations").append('<li>' + locationText + '</li>');
+              });
             });
           } else {
             alert("Cannot access GPS function, is it disabled?");
           }
         }
+
+        function startSendLocation(seconds) {
+          window.setInterval(sendLocation, seconds * 1000)
+        }
     </script>
   </head>
   <body>
-    <input type="button" onclick="sendLocation()" value="Send Location"/>
+    <input type="button" onclick="startSendLocation(5)" value="Send Location every 5 seconds"/>
+    <h3>Sent successfully</h3>
+    <ol id="sentLocations">
+    </ol>
+    <h3>Failed to send</h3>
+    <ol id="unsentLocations">
+    </ol>
   </body>
 </html>
