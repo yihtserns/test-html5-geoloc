@@ -11,13 +11,13 @@
             geolocator.getCurrentPosition(function(position) {
               var lat = position.coords.latitude;
               var long = position.coords.longitude;
-              var time = Date.now();
+              var now = new Date();
 
               var report = function(status) {
-                $("#historyHeaders").after("<tr><td>" + status + "</td><td>" + time + "</td><td>" + lat + "</td><td>" + long + "</td></tr>");
+                $("#historyHeaders").after("<tr><td>" + status + "</td><td>" + now.getTime() + " (" + now.toString() + ")" + "</td><td>" + lat + "</td><td>" + long + "</td></tr>");
               };
 
-              var req = $.post('/report', { time: time, lat: lat, long: long }, function() {
+              var req = $.post('/report', { time: now.getTime(), lat: lat, long: long }, function() {
                 report('OK');
               }).fail(function() {
                 report("FAIL");
