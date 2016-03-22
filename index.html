@@ -12,12 +12,15 @@
               var lat = position.coords.latitude;
               var long = position.coords.longitude;
               var time = Date.now();
-              var locationText = "Time: " + time + ", Latitude: " + lat + ", Longitude: " + long;
+
+              var report = function(status) {
+                $("#historyHeaders").after("<tr><td>" + status + "</td><td>" + time + "</td><td>" + lat + "</td><td>" + long + "</td></tr>");
+              };
 
               var req = $.post('/report', { time: time, lat: lat, long: long }, function() {
-                $("#sentLocations").append('<li>' + locationText + '</li>');
+                report('OK');
               }).fail(function() {
-                $("#unsentLocations").append('<li>' + locationText + '</li>');
+                report("FAIL");
               });
             });
           } else {
@@ -31,12 +34,15 @@
     </script>
   </head>
   <body>
-    <input type="button" onclick="startSendLocation(5)" value="Send Location every 5 seconds"/>
-    <h3>Sent successfully</h3>
-    <ol id="sentLocations">
-    </ol>
-    <h3>Failed to send</h3>
-    <ol id="unsentLocations">
-    </ol>
+    <input type="button" onclick="startSendLocation(5)" value="Send location every 5 seconds"/>
+    <p/>
+    <table style="border: 1px solid black;">
+      <tr id="historyHeaders">
+        <th>Status</th>
+        <th>Time</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+      </tr>
+    </table>
   </body>
 </html>
