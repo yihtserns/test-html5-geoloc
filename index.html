@@ -28,13 +28,26 @@
           }
         }
 
+        var timerId;
         function startSendLocation(seconds) {
-          window.setInterval(sendLocation, seconds * 1000)
+          timerId = window.setInterval(sendLocation, seconds * 1000);
+          toggleButtonVisibility();
+        }
+
+        function stopSendLocation() {
+          window.clearInterval(timerId);
+          toggleButtonVisibility();
+        }
+
+        function toggleButtonVisibility() {
+          $('#startSendLocation').toggle();
+          $('#stopSendLocation').toggle();
         }
     </script>
   </head>
   <body>
-    <input type="button" onclick="startSendLocation(5)" value="Send location every 5 seconds"/>
+    <input id="startSendLocation" type="button" onclick="startSendLocation(5)" value="Send location every 5 seconds"/>
+    <input id="stopSendLocation" type="button" onclick="stopSendLocation()" value="Stop sending location" style="display: none;"/>
     <p/>
     <table style="border: 1px solid black;">
       <tr id="historyHeaders">
